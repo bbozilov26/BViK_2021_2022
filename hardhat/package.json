@@ -1,0 +1,18 @@
+{
+  "name": "hardhat-project",
+  "dependencies": {
+    "@appliedblockchain/chainlink-plugins-fund-link": "^0.0.3",
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "@openzeppelin/contracts-upgradeable": "^4.6.0",
+    "@openzeppelin/hardhat-upgrades": "^1.17.0",
+    "dotenv": "^16.0.0",
+    "hardhat-contract-sizer": "^2.5.1",
+    "hardhat-deploy": "^0.11.4",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.7.21"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.6.0"
+  }
+}
