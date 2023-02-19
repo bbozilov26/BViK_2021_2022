@@ -1,0 +1,132 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.4;
+
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract GuessTheNumber is VRFConsumerBase, Ownable {
+
+
+    struct playerGuess{
+        uint256 guess;
+        address player;
+    }
+
+
+    bytes32 private constant keyHash = 	0x99ddb7155ecdeca5eeb8941081c8fa8ed0d3bbb3479f56a642be5d146ea1afc7;
+    uint256 private constant fee = 0.1 * 10 ** 18;
+
+    uint256 public nextSession;
+    uint256 public timeBetween;
+
+    uint256 public playFee;
+
+    uint32 private indexx = 0;
+
+
+    mapping(address => uint256) public balances;
+    playerGuess[10] public guesses;
+    //lnktkn added for testing
+    constructor(uint256 daysAfter, uint256 _playFee, address lnktkn)
+    VRFConsumerBase(
+        0xdB1bf24659637532292599326DE416B4C65DC38e,
+        lnktkn
+    )
+    {
+        nextSession = block.timestamp + (daysAfter * 2 minutes);
+        timeBetween = daysAfter;
+        playFee = _playFee * 10 ** 16;
+    }
+
+    function startSession() public returns (bytes32 requestId) {
+        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK");
+        require(block.timestamp >= nextSession, "session time is not started");
+        require(indexx > 0, "no players joined");
+
+        return requestRandomness(keyHash, fee);
+    }
+
+    function setPlayFee(uint256 _playFee) external onlyOwner {
+        playFee = _playFee * 1 wei;
+    }
+
+    function setTimeBetween(uint256 time) external onlyOwner {
+        timeBetween = time;
+    }
+
+    function guessNumber(uint256 numb) external payable {
+        require(msg.value == playFee * 1 wei, "not enough ether to play");
+        require(indexx < 10, "10 players limit");
+        playerGuess memory playerg  = playerGuess(numb, msg.sender);
+        guesses[indexx] = playerg;
+        indexx += 1;
+    }
+
+
+    function calcDistance(uint256 a, uint256 b) internal pure returns(uint256)
+    {
+        if (a > b)
+        {
+            return a - b;
+        }
+        else {
+            return b - a;
+        }
+    }
+
+    //added for testing
+    function _calcDistance(uint256 a, uint256 b) public pure returns(uint256)
+    {
+        return calcDistance(a, b);
+    }
+
+    function calcWinner(uint256 rand) internal {
+        uint32 _indexx = indexx;
+
+        playerGuess memory _curWinner = guesses[0];
+        uint256 _curDist = calcDistance(_curWinner.guess, rand);
+        delete guesses[0];
+        for(uint i = 1; i< _indexx; i++)
+        {
+            if(calcDistance(guesses[i].guess, rand) <_curDist)
+            {
+                _curWinner = guesses[i];
+                _curDist = calcDistance(guesses[i].guess, rand);
+            }
+
+            delete guesses[i];
+        }
+
+        balances[owner()] = (playFee * 1 / 100 * (_indexx));
+        balances[_curWinner.player] = (playFee * 99 / 100 * (_indexx));
+        indexx = 0;
+
+    }
+
+    //added for testing
+    function _calcWinner(uint256 rand) public {
+        calcWinner(rand);
+    }
+
+    function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+        uint randomResult = randomness % 1000;
+        calcWinner(randomResult);
+
+        nextSession += timeBetween * 1 minutes;
+
+
+    }
+
+
+    function claim() external {
+        require(balances[msg.sender] > 0, "no eth to withdraw");
+        uint256 _amount = balances[msg.sender];
+        balances[msg.sender] = 0;
+        payable(msg.sender).transfer(_amount);
+    }
+
+    function getPlayerCount() external view returns(uint256)
+    {
+        return indexx;
+    }
+}
