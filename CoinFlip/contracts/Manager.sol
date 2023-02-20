@@ -6,7 +6,8 @@ import "./Owner.sol";
 contract Manager is Owner {
     bool private stopped = false;
     uint public maxBetETH = 20 ether;
-    uint public betFeeETH = 0.2 ether;
+    uint public minBetETH = 0.2 ether;
+    // uint public betFeeETH = 0.2 ether;
     uint randomNonce = 0;
 
     // Stop or unstop contract
@@ -24,8 +25,8 @@ contract Manager is Owner {
     }
 
     // Allow contract owner to deposit funds
-    function deposit() external payable isOwner stopInEmergency {
-        require(msg.value > 0, "Deposit must be greater than 0.");
+    function deposit(uint256 _userDepositAmount) external payable isOwner stopInEmergency {
+        require(_userDepositAmount > 0, "Deposit must be greater than 0.");
     }
 
     // Return the contract balance
@@ -34,9 +35,9 @@ contract Manager is Owner {
     }
 
     // Transfer funds to the contract owner
-    function withdraw() external isOwner onlyInEmergency {
-        payable(msg.sender).transfer(address(this).balance);
-    }
+    // function withdraw() external isOwner onlyInEmergency {
+    //     payable(msg.sender).transfer(address(this).balance);
+    // }
 
     // Generate a random number with keccak256 hash function
     function randomNumber(uint _modulus) internal returns(uint) {
@@ -45,15 +46,29 @@ contract Manager is Owner {
         return uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randomNonce))) % _modulus;
     }
 
+    // Change the minimum amount of the bet
+    function setMinBet(uint256 _newAmount) external isOwner stopInEmergency {
+        // Convert ETH amount to WEI
+        minBetETH = _newAmount * 10 ** 18;
+    }
+
+    function getMinBet() public view returns (uint256){
+        return minBetETH;
+    }
+
     // Change the maximum amount of the bet
     function setMaxBet(uint _newAmount) external isOwner stopInEmergency {
         // Convert ETH amount to WEI
         maxBetETH = _newAmount * 10 ** 18;
     }
 
-    // Change the bet fee
-    function setBetFee(uint _newFee) external isOwner stopInEmergency {
-        // Convert ETH amount to WEI
-        betFeeETH = _newFee * 10 ** 18;
+    function getMaxBet() public view returns (uint256){
+        return maxBetETH;
     }
+
+    // Change the bet fee
+    // function setBetFee(uint _newFee) external isOwner stopInEmergency {
+    //     // Convert ETH amount to WEI
+    //     betFeeETH = _newFee * 10 ** 18;
+    // }
 }
