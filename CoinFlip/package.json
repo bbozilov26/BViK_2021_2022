@@ -1,0 +1,8 @@
+{
+  "name": "CoinFlip",
+  "version": "1.0.0",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.7",
+    "dotenv": "^16.0.3"
+  }
+}

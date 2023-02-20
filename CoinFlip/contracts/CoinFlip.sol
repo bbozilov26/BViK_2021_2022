@@ -14,12 +14,12 @@ contract CoinFlip is Manager {
     }
 
     modifier notOwner() {
-        require(msg.sender != owner, "Bettor can't be the contract owner.");
+        require(msg.sender == owner, "Bettor can't be the contract owner.");
         _;
     }
 
     modifier betValidation(uint _userChoice) {
-        require(msg.value >= 2 ether, "The bet must be greater or equal than 2 ETH.");
+        require(msg.value >= 2 ether, "The bet must be greater or equal than 0.0002 ETH.");
         require(msg.value <= maxBetETH, "The bet must be lower or equal to the max defined amount.");
         require(msg.value * 2 ether <= address(this).balance, "Insufficient contract balance.");
         require(_userChoice <= 1, "Bet number must be 0 or 1.");
@@ -27,7 +27,7 @@ contract CoinFlip is Manager {
     }
 
     // Place a bet, the contract owner can't use this function
-    function bet(uint8 _userChoice) external payable notOwner betValidation(_userChoice) stopInEmergency {
+    function bet(uint8 _userChoice) external payable betValidation(_userChoice) stopInEmergency {
         uint number = randomNumber(2);
         uint betValueETH = msg.value.sub(betFeeETH);
         uint reward = betValueETH.add(msg.value);
