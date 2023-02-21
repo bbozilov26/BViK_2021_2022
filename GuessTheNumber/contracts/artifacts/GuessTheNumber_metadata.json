@@ -12,12 +12,45 @@
 			},
 			{
 				"inputs": [],
-				"name": "_getNumberOfGuesses",
+				"name": "contractBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -38,19 +71,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "numGuesses",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "player",
 				"outputs": [
 					{
@@ -64,7 +84,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "reward",
+				"name": "punishAmountTotal",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -86,6 +106,13 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "toggleContractActive",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -124,11 +151,27 @@
 	},
 	"sources": {
 		"GuessTheNumber/contracts/GuessTheNumber.sol": {
-			"keccak256": "0xe8513030b2e5c2b9a5f0bf070092702d2ebc5197b840952d48da71b816e449be",
+			"keccak256": "0x16134dd6f92d67ffd148d715620518ab097d425b8e03a635c43a14ee145159c3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7ba02aceb8195a0e323d9e04f197390f3ad81a10c154ff7aecfb202635a2ea36",
-				"dweb:/ipfs/QmSDMFTzkJp18XMiDoymdhmEN2B6c6GnFgFsQDVoR2i359"
+				"bzz-raw://f5a28158ee680aa3546ba3d29598a426754076f8e49c778e3e9557339a28060a",
+				"dweb:/ipfs/QmTrgSmHMc8VALqM1edsZLFuhCx8U6L1zZHZzZKuZhaitu"
+			]
+		},
+		"GuessTheNumber/contracts/Manager.sol": {
+			"keccak256": "0xc77e3ad67a2782245570b3dfd3fb23d21add75f3274af762e228dc2f03f35f51",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://540dbc32f9cc8a8082b139c72989b798727b2ef1a43ff807e26aaa9dc2f041b5",
+				"dweb:/ipfs/QmQ3VJZTJn6ouRRDHq5ebV1FQLFPFKPBaRx4K4XXuMVCZw"
+			]
+		},
+		"GuessTheNumber/contracts/Owner.sol": {
+			"keccak256": "0x31997463163f0d75e426eca6f4c61a9a5c30df9b3f112487d52fb76310c5addf",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ee8fb7d784429a9c20b7164ff240073a406834c9d9b8ea2da2de1c31105e36ed",
+				"dweb:/ipfs/QmSb8XJv2GbdGuGykZAtGw3th7NBgeJZx8SSJg5C6BUYyQ"
 			]
 		}
 	},

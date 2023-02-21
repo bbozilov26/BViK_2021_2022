@@ -1,86 +1,60 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract GuessTheNumber {
+import "./Manager.sol";
+
+contract GuessTheNumber is Manager {
     
     uint256 constant MAX_GUESS = 10;
-    uint256 constant NUM_ATTEMPTS = 2;
-    uint256 constant MAX_REWARD = 2 ether;
-    // uint256 constant MIN_REWARD = 0.1 ether;
-    uint256 constant INCENTIVE = 0.5 ether;
-    uint256 constant PENALTY = 1 ether;
+    uint256 constant REWARD_PERCENT = 20;
+    uint256 constant PENALTY_PERCENT = 25;
+    
     uint256 public secretNumber;
-    uint256 public numGuesses;
-    uint256 public reward;
+    uint256 public contractBalance;
     address public player;
+    uint256 public punishAmountTotal = 0;
     
     constructor() payable {
-        require(msg.value >= 0, "Insufficient reward amount.");
+        require(msg.value > 0, "Insufficient reward amount.");
         player = msg.sender;
         secretNumber = uint256(keccak256(abi.encodePacked(block.timestamp, player))) % MAX_GUESS + 1;
-        reward = msg.value;
-        numGuesses = 0;
+        contractBalance = msg.value;
     }
     
     function guess(uint256 num) public {
         require(msg.sender == player, "Only the player can make a guess.");
         require(num >= 1 && num <= MAX_GUESS, "Guess must be within range of 1 to 10.");
-        require(numGuesses < NUM_ATTEMPTS+1, "You have exceeded the maximum number of attempts.");
-        increment(numGuesses);
 
-        if (num == secretNumber) {
+         if (num == secretNumber) {
             // Player wins
-            if (numGuesses == 1) {
-                // Player wins in first attempt
-                reward = MAX_REWARD;
-            } else {
-                // Calculate reward based on number of attempts
-                reward = MAX_REWARD - (INCENTIVE * numGuesses);
-            }
-            // selfdestruct(payable(msg.sender));
-            claimReward();
-        } else if (numGuesses == NUM_ATTEMPTS) {
-            // Player loses
-            // reward = MIN_REWARD;
-            reward -= PENALTY;
-            // selfdestruct(payable(address(this)));
+            uint256 reward = contractBalance * REWARD_PERCENT / 100;
+            contractBalance -= reward;
+            
+            // Transfer player's reward
+            (bool success, ) = payable(player).call{value: reward}("");
+            require(success, "Transfer failed. Deposit needed.");
         } else {
-            // Player continues guessing
-            if (num > secretNumber) {
-                // Guess is too high
-                revert("Your guess is too high.");
-            } else {
-                // Guess is too low
-                revert("Your guess is too low.");
-            }
+            // Player loses
+            uint256 punishAmount = contractBalance * PENALTY_PERCENT / 100;
+            punishAmountTotal += punishAmount;
+            // Add punishAmount to contract's balance
+            require(address(this).balance >= punishAmount, "Contract balance must be greater than or equal to punishAmount. Deposit needed.");
+            
+            contractBalance += punishAmount;
         }
-    }
-    
-    function claimReward() private {
-        require(msg.sender == player, "Only the player can claim the reward.");
-        require(reward > 0, "There is no reward to claim.");
-        uint256 amount = reward;
-        reward = 0;
-        numGuesses = 0;
+
         secretNumber = uint256(keccak256(abi.encodePacked(block.timestamp, player))) % MAX_GUESS + 1;
-        payable(msg.sender).transfer(amount);
     }
     
-    function withdraw() public {
-        require(msg.sender == player, "Only the player can withdraw their funds.");
-        selfdestruct(payable(msg.sender));
+    function withdraw() external isOwner stopInEmergency{
+        (bool success, ) = payable(msg.sender).call{value: address(this).balance - punishAmountTotal}("");
+        require(success, "Transfer failed. Deposit needed.");
+        contractBalance = 0;
+        punishAmountTotal = 0;
     }
 
-    function _setNumberOfGuesses(uint256 _counter) internal {
-        numGuesses = _counter;
-    }
-
-    function increment(uint256 value) private {
-        uint256 newValue = value + 1;
-        _setNumberOfGuesses(newValue);
-    }
-
-    function _getNumberOfGuesses() public view returns(uint256) {
-        return numGuesses;
+    function deposit() external payable isOwner stopInEmergency {
+        require(msg.value > 0, "Deposit must be greater than 0.");
+        contractBalance += msg.value;
     }
 }
