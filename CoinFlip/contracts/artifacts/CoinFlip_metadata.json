@@ -37,13 +37,7 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_userDepositAmount",
-						"type": "uint256"
-					}
-				],
+				"inputs": [],
 				"name": "deposit",
 				"outputs": [],
 				"stateMutability": "payable",
@@ -203,19 +197,19 @@
 	},
 	"sources": {
 		"CoinFlip/contracts/CoinFlip.sol": {
-			"keccak256": "0x44788a168761ca72a812541d451057e3c52b4980ba73905a6efa04cab1ba33e5",
+			"keccak256": "0xa47180fc9fb75e63dd8b50a1d8811d82166281be09bb0fe15951b24e174fc6d6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3c770f7a0333d4caf2257182be94fae0fd7670b6764e92eff1196b7e7277fa3b",
-				"dweb:/ipfs/QmdLq2vxKJB841xrtqz2UHvnjC2x1fcwwJr1VudPX9rsvH"
+				"bzz-raw://527506405650fa3b7ac2df77a66bd7f6a7ce3e3da511a0e75b79034d2e30f6eb",
+				"dweb:/ipfs/QmNapzLQjXZAKU1FvVhJj8K4UAnxmr5wm8Q21hi4uKcUv2"
 			]
 		},
 		"CoinFlip/contracts/Manager.sol": {
-			"keccak256": "0x525b43b08a86c617cb95a4e3dfb984213e6c378451ea16cde18c12a6f6a1041f",
+			"keccak256": "0x839a0d89d45ec1e097dc32f106a57f9d4786ca6f55df326873c290ec1848e1c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d181666ce0de46b8ef134b3d0dc92e3e4131a6b97d88333b033fd7b0937336e5",
-				"dweb:/ipfs/Qma32QgfYiwaKkERyfwkeW7emW5548UcJd9kZ9CuCtAMuQ"
+				"bzz-raw://281101cbd274e97f38923cfae3eb2cf6239fb81a243731d0e9751c277d274c36",
+				"dweb:/ipfs/QmPi2FCZ1Ydmv1mTyErCJ4LR79ujnJQG63kTKLa8qbgFUD"
 			]
 		},
 		"CoinFlip/contracts/Owner.sol": {

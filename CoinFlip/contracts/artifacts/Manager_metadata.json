@@ -6,19 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"name": "betFeeETH",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -29,13 +16,6 @@
 				"name": "changeOwner",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "deposit",
-				"outputs": [],
-				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -53,9 +33,28 @@
 			},
 			{
 				"inputs": [],
+				"name": "getMaxBet",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getMinBet",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -95,19 +94,6 @@
 					}
 				],
 				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_newFee",
-						"type": "uint256"
-					}
-				],
-				"name": "setBetFee",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -172,11 +158,11 @@
 	},
 	"sources": {
 		"CoinFlip/contracts/Manager.sol": {
-			"keccak256": "0x2e13dc78a05b8cba8e96bb79fbfe2b2ad72c2c5335562279f01afe34b7a446ff",
+			"keccak256": "0x839a0d89d45ec1e097dc32f106a57f9d4786ca6f55df326873c290ec1848e1c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2c698bfcfcaffc00e2386a07a5a57d525588d314fbe93eb424f03b89bc6ad3ac",
-				"dweb:/ipfs/QmWJNS7NiRauvzUAeVP83ykAn2vgFw1bAuai2nwuGVSNsT"
+				"bzz-raw://281101cbd274e97f38923cfae3eb2cf6239fb81a243731d0e9751c277d274c36",
+				"dweb:/ipfs/QmPi2FCZ1Ydmv1mTyErCJ4LR79ujnJQG63kTKLa8qbgFUD"
 			]
 		},
 		"CoinFlip/contracts/Owner.sol": {

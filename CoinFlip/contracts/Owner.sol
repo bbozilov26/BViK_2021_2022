@@ -20,8 +20,8 @@ contract Owner {
     }
 
     // Contract owner can transfer ownership to another address
-    function changeOwner(address _newOwner) external {
-        require(msg.sender == owner);
-        owner = _newOwner;
-    }
+    // function changeOwner(address _newOwner) external {
+    //     require(msg.sender == owner);
+    //     owner = _newOwner;
+    // }
 }

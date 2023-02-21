@@ -25,14 +25,18 @@ contract Manager is Owner {
     }
 
     // Allow contract owner to deposit funds
-    function deposit(uint256 _userDepositAmount) external payable isOwner stopInEmergency {
-        require(_userDepositAmount > 0, "Deposit must be greater than 0.");
-    }
+    // function deposit(uint256 _userDepositAmount) external payable isOwner stopInEmergency {
+    //     require(_userDepositAmount > 0, "Deposit must be greater than 0.");
+    // }
 
     // Return the contract balance
     function getBalance() external view returns (uint) {
         return address(this).balance;
     }
+
+    // function setBalance(uint256 _contractBalance) public {
+    //     address(this).balance = _contractBalance;
+    // }
 
     // Transfer funds to the contract owner
     // function withdraw() external isOwner onlyInEmergency {
@@ -40,11 +44,11 @@ contract Manager is Owner {
     // }
 
     // Generate a random number with keccak256 hash function
-    function randomNumber(uint _modulus) internal returns(uint) {
-        randomNonce++;
-        // This is not the most secure way to generate a random number. For demonstration purposes only
-        return uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randomNonce))) % _modulus;
-    }
+    // function randomNumber(uint _modulus) internal returns(uint) {
+    //     randomNonce++;
+    //     // This is not the most secure way to generate a random number. For demonstration purposes only
+    //     return uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randomNonce))) % _modulus;
+    // }
 
     // Change the minimum amount of the bet
     function setMinBet(uint256 _newAmount) external isOwner stopInEmergency {
