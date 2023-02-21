@@ -1,132 +1,72 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+pragma solidity ^0.8.0;
 
-import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-contract GuessTheNumber is VRFConsumerBase, Ownable {
-
-
-    struct playerGuess{
-        uint256 guess;
-        address player;
+contract GuessTheNumber {
+    
+    uint256 constant MAX_GUESS = 10;
+    uint256 constant NUM_ATTEMPTS = 2;
+    uint256 constant MAX_REWARD = 2 ether;
+    // uint256 constant MIN_REWARD = 0.1 ether;
+    uint256 constant INCENTIVE = 0.5 ether;
+    uint256 constant PENALTY = 1 ether;
+    uint256 public secretNumber;
+    uint256 public numGuesses = 0;
+    uint256 public reward;
+    address public player;
+    
+    constructor() payable {
+        require(msg.value >= 0, "Insufficient reward amount.");
+        player = msg.sender;
+        secretNumber = uint256(keccak256(abi.encodePacked(block.timestamp, player))) % MAX_GUESS + 1;
+        reward = msg.value;
+        // numGuesses = 0;
     }
-
-
-    bytes32 private constant keyHash = 	0x99ddb7155ecdeca5eeb8941081c8fa8ed0d3bbb3479f56a642be5d146ea1afc7;
-    uint256 private constant fee = 0.1 * 10 ** 18;
-
-    uint256 public nextSession;
-    uint256 public timeBetween;
-
-    uint256 public playFee;
-
-    uint32 private indexx = 0;
-
-
-    mapping(address => uint256) public balances;
-    playerGuess[10] public guesses;
-    //lnktkn added for testing
-    constructor(uint256 daysAfter, uint256 _playFee, address lnktkn)
-    VRFConsumerBase(
-        0xdB1bf24659637532292599326DE416B4C65DC38e,
-        lnktkn
-    )
-    {
-        nextSession = block.timestamp + (daysAfter * 2 minutes);
-        timeBetween = daysAfter;
-        playFee = _playFee * 10 ** 16;
-    }
-
-    function startSession() public returns (bytes32 requestId) {
-        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK");
-        require(block.timestamp >= nextSession, "session time is not started");
-        require(indexx > 0, "no players joined");
-
-        return requestRandomness(keyHash, fee);
-    }
-
-    function setPlayFee(uint256 _playFee) external onlyOwner {
-        playFee = _playFee * 1 wei;
-    }
-
-    function setTimeBetween(uint256 time) external onlyOwner {
-        timeBetween = time;
-    }
-
-    function guessNumber(uint256 numb) external payable {
-        require(msg.value == playFee * 1 wei, "not enough ether to play");
-        require(indexx < 10, "10 players limit");
-        playerGuess memory playerg  = playerGuess(numb, msg.sender);
-        guesses[indexx] = playerg;
-        indexx += 1;
-    }
-
-
-    function calcDistance(uint256 a, uint256 b) internal pure returns(uint256)
-    {
-        if (a > b)
-        {
-            return a - b;
-        }
-        else {
-            return b - a;
-        }
-    }
-
-    //added for testing
-    function _calcDistance(uint256 a, uint256 b) public pure returns(uint256)
-    {
-        return calcDistance(a, b);
-    }
-
-    function calcWinner(uint256 rand) internal {
-        uint32 _indexx = indexx;
-
-        playerGuess memory _curWinner = guesses[0];
-        uint256 _curDist = calcDistance(_curWinner.guess, rand);
-        delete guesses[0];
-        for(uint i = 1; i< _indexx; i++)
-        {
-            if(calcDistance(guesses[i].guess, rand) <_curDist)
-            {
-                _curWinner = guesses[i];
-                _curDist = calcDistance(guesses[i].guess, rand);
+    
+    function guess(uint256 num) public {
+        require(msg.sender == player, "Only the player can make a guess.");
+        require(num >= 1 && num <= MAX_GUESS, "Guess must be within range of 1 to 10.");
+        require(numGuesses < NUM_ATTEMPTS+1, "You have exceeded the maximum number of attempts.");
+        numGuesses += 1;
+        if (num == secretNumber) {
+            // Player wins
+            if (numGuesses == 1) {
+                // Player wins in first attempt
+                reward = MAX_REWARD;
+            } else {
+                // Calculate reward based on number of attempts
+                reward = MAX_REWARD - (INCENTIVE * numGuesses);
             }
-
-            delete guesses[i];
+            // selfdestruct(payable(msg.sender));
+            claimReward();
+        } else if (numGuesses == NUM_ATTEMPTS) {
+            // Player loses
+            // reward = MIN_REWARD;
+            reward -= PENALTY;
+            // selfdestruct(payable(address(this)));
+        } else {
+            // Player continues guessing
+            if (num > secretNumber) {
+                // Guess is too high
+                revert("Your guess is too high.");
+            } else {
+                // Guess is too low
+                revert("Your guess is too low.");
+            }
         }
-
-        balances[owner()] = (playFee * 1 / 100 * (_indexx));
-        balances[_curWinner.player] = (playFee * 99 / 100 * (_indexx));
-        indexx = 0;
-
     }
-
-    //added for testing
-    function _calcWinner(uint256 rand) public {
-        calcWinner(rand);
+    
+    function claimReward() private {
+        require(msg.sender == player, "Only the player can claim the reward.");
+        require(reward > 0, "There is no reward to claim.");
+        uint256 amount = reward;
+        reward = 0;
+        numGuesses = 0;
+        secretNumber = uint256(keccak256(abi.encodePacked(block.timestamp, player))) % MAX_GUESS + 1;
+        payable(msg.sender).transfer(amount);
     }
-
-    function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
-        uint randomResult = randomness % 1000;
-        calcWinner(randomResult);
-
-        nextSession += timeBetween * 1 minutes;
-
-
-    }
-
-
-    function claim() external {
-        require(balances[msg.sender] > 0, "no eth to withdraw");
-        uint256 _amount = balances[msg.sender];
-        balances[msg.sender] = 0;
-        payable(msg.sender).transfer(_amount);
-    }
-
-    function getPlayerCount() external view returns(uint256)
-    {
-        return indexx;
+    
+    function withdraw() public {
+        require(msg.sender == player, "Only the player can withdraw their funds.");
+        selfdestruct(payable(msg.sender));
     }
 }
