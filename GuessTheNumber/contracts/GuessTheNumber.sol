@@ -10,7 +10,7 @@ contract GuessTheNumber {
     uint256 constant INCENTIVE = 0.5 ether;
     uint256 constant PENALTY = 1 ether;
     uint256 public secretNumber;
-    uint256 public numGuesses = 0;
+    uint256 public numGuesses;
     uint256 public reward;
     address public player;
     
@@ -19,14 +19,15 @@ contract GuessTheNumber {
         player = msg.sender;
         secretNumber = uint256(keccak256(abi.encodePacked(block.timestamp, player))) % MAX_GUESS + 1;
         reward = msg.value;
-        // numGuesses = 0;
+        numGuesses = 0;
     }
     
     function guess(uint256 num) public {
         require(msg.sender == player, "Only the player can make a guess.");
         require(num >= 1 && num <= MAX_GUESS, "Guess must be within range of 1 to 10.");
         require(numGuesses < NUM_ATTEMPTS+1, "You have exceeded the maximum number of attempts.");
-        numGuesses += 1;
+        increment(numGuesses);
+
         if (num == secretNumber) {
             // Player wins
             if (numGuesses == 1) {
@@ -68,5 +69,18 @@ contract GuessTheNumber {
     function withdraw() public {
         require(msg.sender == player, "Only the player can withdraw their funds.");
         selfdestruct(payable(msg.sender));
+    }
+
+    function _setNumberOfGuesses(uint256 _counter) internal {
+        numGuesses = _counter;
+    }
+
+    function increment(uint256 value) private {
+        uint256 newValue = value + 1;
+        _setNumberOfGuesses(newValue);
+    }
+
+    function _getNumberOfGuesses() public view returns(uint256) {
+        return numGuesses;
     }
 }

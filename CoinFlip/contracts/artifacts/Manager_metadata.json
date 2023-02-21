@@ -6,19 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_newOwner",
-						"type": "address"
-					}
-				],
-				"name": "changeOwner",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "getBalance",
 				"outputs": [
@@ -158,19 +145,19 @@
 	},
 	"sources": {
 		"CoinFlip/contracts/Manager.sol": {
-			"keccak256": "0x839a0d89d45ec1e097dc32f106a57f9d4786ca6f55df326873c290ec1848e1c1",
+			"keccak256": "0x8af60fa0df7ad37f5a752dedfd16977b7bb00757643ae6339edcb0e0fbb9e486",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://281101cbd274e97f38923cfae3eb2cf6239fb81a243731d0e9751c277d274c36",
-				"dweb:/ipfs/QmPi2FCZ1Ydmv1mTyErCJ4LR79ujnJQG63kTKLa8qbgFUD"
+				"bzz-raw://cd8c72a7ce447e4d413e22b0d5d0af72bde6dce1af9623f41e3a783194edf708",
+				"dweb:/ipfs/QmaQWkXz4RbseL2VDUBHcte5CYrXbcjuzyTGtiH1x4AcCt"
 			]
 		},
 		"CoinFlip/contracts/Owner.sol": {
-			"keccak256": "0xcba39d21f69c59f5c4d32ef5a7ecf74772c9af4834a310744f5e4a0fb942ccdc",
+			"keccak256": "0x31997463163f0d75e426eca6f4c61a9a5c30df9b3f112487d52fb76310c5addf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0ceed8f782c9e4148462c34eaea2b07b355d09f2bd5d540f27c22168f8256504",
-				"dweb:/ipfs/QmZLUcrsNm4piP5d1jSJPDXkM59Zg7xXkJnfJqVJSpZCRD"
+				"bzz-raw://ee8fb7d784429a9c20b7164ff240073a406834c9d9b8ea2da2de1c31105e36ed",
+				"dweb:/ipfs/QmSb8XJv2GbdGuGykZAtGw3th7NBgeJZx8SSJg5C6BUYyQ"
 			]
 		}
 	},

@@ -1,0 +1,87 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "toggleContractActive",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"GuessTheNumber/contracts/Manager.sol": "Manager"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"GuessTheNumber/contracts/Manager.sol": {
+			"keccak256": "0xc77e3ad67a2782245570b3dfd3fb23d21add75f3274af762e228dc2f03f35f51",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://540dbc32f9cc8a8082b139c72989b798727b2ef1a43ff807e26aaa9dc2f041b5",
+				"dweb:/ipfs/QmQ3VJZTJn6ouRRDHq5ebV1FQLFPFKPBaRx4K4XXuMVCZw"
+			]
+		},
+		"GuessTheNumber/contracts/Owner.sol": {
+			"keccak256": "0x31997463163f0d75e426eca6f4c61a9a5c30df9b3f112487d52fb76310c5addf",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ee8fb7d784429a9c20b7164ff240073a406834c9d9b8ea2da2de1c31105e36ed",
+				"dweb:/ipfs/QmSb8XJv2GbdGuGykZAtGw3th7NBgeJZx8SSJg5C6BUYyQ"
+			]
+		}
+	},
+	"version": 1
+}

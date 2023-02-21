@@ -37,7 +37,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"CoinFlip/contracts/Owner.sol": "Owner"
+			"GuessTheNumber/contracts/Owner.sol": "Owner"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -51,12 +51,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"CoinFlip/contracts/Owner.sol": {
-			"keccak256": "0xd6ffd8bc37978f12c30714042ecf0ed37b8a1758310a076a2ca12a9e3d71e224",
+		"GuessTheNumber/contracts/Owner.sol": {
+			"keccak256": "0x31997463163f0d75e426eca6f4c61a9a5c30df9b3f112487d52fb76310c5addf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://866e28b972d94ec841d075616f2a8f13bc87785785c574387032aab750768c5b",
-				"dweb:/ipfs/QmVgFwaqJP2FZBSqBbLCQrXh8rhjD3CYFsSrcu5aS6RoNs"
+				"bzz-raw://ee8fb7d784429a9c20b7164ff240073a406834c9d9b8ea2da2de1c31105e36ed",
+				"dweb:/ipfs/QmSb8XJv2GbdGuGykZAtGw3th7NBgeJZx8SSJg5C6BUYyQ"
 			]
 		}
 	},

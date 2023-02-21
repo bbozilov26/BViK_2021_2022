@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.4+commit.c7e474f2"
+		"version": "0.8.17+commit.8df45f5f"
 	},
 	"language": "Solidity",
 	"output": {
@@ -9,6 +9,19 @@
 				"inputs": [],
 				"stateMutability": "payable",
 				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "_getNumberOfGuesses",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -98,7 +111,7 @@
 		"compilationTarget": {
 			"GuessTheNumber/contracts/GuessTheNumber.sol": "GuessTheNumber"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -111,11 +124,11 @@
 	},
 	"sources": {
 		"GuessTheNumber/contracts/GuessTheNumber.sol": {
-			"keccak256": "0x362aab0d118d4a43f72e26f46b3d640ff7fcd293816003f84425d54678eed953",
+			"keccak256": "0xe8513030b2e5c2b9a5f0bf070092702d2ebc5197b840952d48da71b816e449be",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ea1d27787fa35148d229f4d65d86ec0fd1f90982669afa0d575a313d954a8298",
-				"dweb:/ipfs/QmSK8vVwMggjpYGfQSm5P2YcagkqJDp1VtxgTJ84JAgArp"
+				"bzz-raw://7ba02aceb8195a0e323d9e04f197390f3ad81a10c154ff7aecfb202635a2ea36",
+				"dweb:/ipfs/QmSDMFTzkJp18XMiDoymdhmEN2B6c6GnFgFsQDVoR2i359"
 			]
 		}
 	},

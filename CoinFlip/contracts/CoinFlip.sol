@@ -30,8 +30,9 @@ contract CoinFlip is Manager {
 
         if (result == 1) {
             // If the result is heads, the player wins and receives double the bet amount
-            payable(msg.sender).transfer(msg.value * 2);
-            contractBalance -= msg.value*2;
+            uint256 reward = msg.value * 2;
+            payable(msg.sender).transfer(reward);
+            contractBalance -= reward;
             
         } else {
             // If the result is tails, the player loses and the contract balance increases by the bet amount
