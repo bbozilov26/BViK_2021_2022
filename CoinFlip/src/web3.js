@@ -156,7 +156,7 @@ const minBet = await coinFlipContract.methods.getMinBet().call();
 const maxBet = await coinFlipContract.methods.getMaxBet().call();
 
 // place a bet and call flipCoin function
-const betAmount = 100; // replace with your desired bet amount
+const betAmount = 10000000000000000000; // replace with your desired bet amount // this is 10 ETH in Wei
 const functionData = coinFlipContract.methods.flipCoin(betAmount).encodeABI();
 const gasPrice = await web3.eth.getGasPrice();
 const gasEstimate = await coinFlipContract.methods.flipCoin(betAmount).estimateGas({from: player, value: betAmount, data: functionData});
